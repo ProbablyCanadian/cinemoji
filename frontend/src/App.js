@@ -1,40 +1,4 @@
 import './App.css';
-/*
-import React, { useState } from "react";
-
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-
-function App() {
-  const handleChange = (event) => {
-    console.log(event.target.value); // Access the value entered by the user
-  };
-  return (
-    
-    <div classname ="App">
-      <header className="App-header">
-      
-
-      test i will kms if this doesnt work
-      
-        <div>
-          <label htmlFor="textbox">Enter text:</label>
-          <input
-          type="text"
-          id="textbox"
-          onChange={handleChange} // Handle change event
-          placeholder="Type here..."
-          />
-        </div>
-      </header>
-    </div>
-  );
-}
-
-export default App;
-*/
-
 import React, { useState } from 'react';
 
 function App() {
