@@ -1,0 +1,12 @@
+{
+  "name": "cinemoji",
+  "version": "1.0.0",
+  "description": "Uncommon Hacks 2024 Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
