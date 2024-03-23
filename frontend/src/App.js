@@ -52,26 +52,26 @@ function App() {
 
     const sendMessage = () => {
         if (message.trim() !== '') {
-            alert('Message sent: ' + message); // You can replace this with your desired action to send the message
-            setMessage('');
+            //Add stuff when you click the button
+            //setMessage('');
         } else {
             alert('Please enter a message.');
         }
     };
 
     return (
-      <div classname ="App">
-          <header className="App-header">
-                    <h2>CineMoji 🎬</h2>
-                    <h3>Movie Name</h3>
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={handleInputChange}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Type your guess here..."
-                    />
-                    <button onClick={sendMessage}>Send</button>
+        <div className="App">
+            <header className="App-header">
+                <h2>CineMoji 🎬</h2>
+                <h3>Movie Name</h3>
+                <input
+                    type="text"
+                    value={message}
+                    onChange={handleInputChange}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Type your guess here..."
+                />
+                <button onClick={sendMessage}>Send</button>
             </header>
         </div>
     );
