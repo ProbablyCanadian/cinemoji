@@ -9,10 +9,12 @@ const openai = new OpenAI({ apiKey: process.env.GPT_KEY });
 
 // Define a function for sending a message to the OpenAI API and logging the response
 async function getMovie() {
+   const year = Math.floor(Math.random() * (2023 - 1970 + 1)) + 1970;
+   console.log(year)
     try {
         const response = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: "Generate the name of a popular movie. Output the name only and nothing else"}],
+            messages: [{ role: 'user', content: "Pick the name of a movie from "+ year +". Output the name only and nothing else"}],
         });
         // Log and return the assistant's response
         const output = response.choices[0].message.content.trim();
@@ -29,7 +31,7 @@ async function getEmojis(movie) {
     try {
         const response = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: `Represent the movie '${movie}' using only 10 emojis`}],
+            messages: [{ role: 'user', content: `Represent the movie '${movie}' using only 8 emojis. Do not reapeat the same emoji twice`}],
         });
         // Log and return the assistant's response
         const output = response.choices[0].message.content.trim();
