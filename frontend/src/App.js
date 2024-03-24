@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import './App.css';
 import movieData from './database.json';
 
+
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -143,6 +144,13 @@ useEffect(() => {
   };
   
   const sendMessage = () => {
+    if (attempts >= 4) {
+      // Block the chat box after 4 attempts
+      setGuessResult(`You've reached the limit of attempts. The correct answer was "${correctAnswer}".`);
+      setDisableSend(true);
+      return;
+    }
+  
     setAttempts(prevAttempts => prevAttempts + 1); // Increment attempts
     if (message.trim() !== '') {
       if (message.trim() === correctAnswer) {
@@ -151,7 +159,7 @@ useEffect(() => {
         setGuessResult(attemptsEmojis);
         setRevealedEmojis(8);
         setDisableSend(true); // Disable send button after correct answer
-
+  
         // Add the correct guess to the list of incorrect guesses in green color
         setIncorrectGuesses([...incorrectGuesses, { guess: message, correct: true }]);
         setAttempts('You did it!');
@@ -163,14 +171,17 @@ useEffect(() => {
           // Add the incorrect guess to the list of incorrect guesses in red color
           setIncorrectGuesses([...incorrectGuesses, { guess: message, correct: false }]);
         } else {
+          setGuessResult(`The correct answer was "${correctAnswer}".`);
           setRevealedEmojis(8);
+          setDisableSend(true); // Disable send button after 4 incorrect attempts
         }
       }
       setMessage('');
     } else {
       setGuessResult('Please enter a message.');
     }
-  };  
+  };
+  
 
   const renderEmojis = () => {
     let emojis = '';

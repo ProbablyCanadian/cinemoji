@@ -100,7 +100,7 @@
   }
 
   .autocomplete-items div:last-child {
-    border-bottom: none; /* No bottom border for the last item */
+    border-bottom: none; /* No bottom bo  rder for the last item */
   }
 
   .autocomplete-items div:hover {
