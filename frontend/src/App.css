@@ -4,7 +4,9 @@
     min-height: 100vh;
   }
 
-
+.test {
+  max-height: 40vh;
+}
 
   .App-logo {
     height: 40vmin;
