@@ -18,8 +18,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-// Placeholder Home component, you can adjust it as needed
-function Home() {
+function Movies() {
   return <h2>Welcome to CineMoji 🎬</h2>;
 }
 
@@ -88,7 +87,7 @@ function App() {
           {/* Links for navigation */}
           <nav>
             <ul>
-              <li><Link to="/">Home</Link></li>
+              <li><Link to="/">Movies</Link></li>
               <li><Link to="/tvshows">TV Shows</Link></li>
             </ul>
           </nav>
