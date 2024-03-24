@@ -53,6 +53,10 @@
     box-sizing: border-box; /* Ensure padding and border are included in total width and height */
   }
 
+  .descr{
+    width:40%;
+  }
+
   .autocomplete {
     position: relative;
     display: inline-block;
