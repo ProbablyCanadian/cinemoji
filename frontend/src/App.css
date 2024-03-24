@@ -75,14 +75,14 @@
   .autocomplete-items {
     position: absolute;
     border: 1px solid #d4d4d4;
-    border-top: none; /* Remove top border for a continuous look */
+    border-bottom: none; /* Remove top border for a continuous look */
     z-index: 99;
-    top: 100%;
+    bottom: 100%;
     left: 0;
     right: 0;
     border-radius: 0 0 4px 4px; /* Rounded corners at the bottom */
     background-color: #fff;
-    max-height: 200px; /* Limit dropdown height */
+    max-height: 125px; /* Limit dropdown height */
     overflow-y: auto; /* Scrollbar for overflow */
     width: 100%; /* Dropdown matches input width */
   }
@@ -115,6 +115,11 @@
     box-sizing: border-box;
     z-index: 100; /* Ensure the sidebar is above other content */
   }
+
+  .green-text {
+    color: green;
+  }
+  
 
   /* Add styles for nav links in the sidebar for better visibility */
   .App-sidebar nav ul {
