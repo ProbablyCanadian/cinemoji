@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import './App.css';
+import movieData from './database.json';
 
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -28,10 +29,54 @@ function TVShows() {
 }
 
 function App() {
+  const movies = [
+    ["The Shawshank Redemption", ["👨‍⚖️", "🔒", "🗝️", "👬", "🌅", "📖", "💼", "💰"]],
+    ["The Dark Knight", ["🦇", "🃏", "💣", "👨‍⚖️", "🦇", "💰", "👿", "🔥"]],
+    ["Pulp Fiction", ["💉", "🍔", "🕶️", "💼", "🔫", "🚬", "🚗", "💊"]],
+    ["Fight Club", ["👨‍💼", "👊", "💥", "👥", "🤖", "🔥", "💊", "👬"]],
+    ["Inception", ["🤔", "💭", "🏃‍♂️", "💼", "🚀", "🕵️‍♂️", "💔", "🔑"]],
+    ["The Matrix", ["🕶️", "💻", "👽", "🔫", "💊", "🔵", "💥", "🚶‍♂️"]],
+    ["The Lord of the Rings: The Fellowship of the Ring", ["🧝‍♂️", "💍", "🗡️", "🌋", "👹", "👣", "👨‍👨‍👦‍👦", "👑"]],
+    ["Gladiator", ["⚔️", "🛡️", "🏛️", "👑", "🤺", "👣", "🔥", "🩸"]],
+    ["The Lion King", ["🦁", "👑", "🐒", "🌅", "👑", "👑", "👑", "👑"]],
+    ["Titanic", ["🚢", "❤️", "🌊", "❄️", "👩‍❤️‍👨", "🎶", "🔱", "⚓"]],
+    ["Avatar", ["🪐", "🌱", "💎", "🏞️", "🤖", "🎋", "🌊", "💥"]],
+    ["The Silence of the Lambs", ["🔇", "🐑", "🧠", "🔪", "👩‍⚖️", "🕵️‍♂️", "🍷", "🐖"]],
+    ["The Sixth Sense", ["👻", "👦🏻", "🔍", "❌", "👻", "❤️", "🤫", "🧠"]],
+    ["The Green Mile", ["⚖️", "🔒", "👣", "👨‍⚖️", "🔪", "👨‍⚖️", "📖", "💊"]],
+    ["Interstellar", ["🌌", "🚀", "🌎", "👩‍👩‍👧‍👦", "💔", "⏳", "👨‍🚀", "🤖"]],
+    ["Terminator 2: Judgment Day", ["🤖", "🔫", "🔥", "⏰", "🏍️", "👦", "👧", "💣"]],
+    ["The Departed", ["👨‍✈️", "🔪", "💼", "👮‍♂️", "🤵", "💰", "🚔", "🕵️"]],
+    ["The Usual Suspects", ["👥", "🕵️‍♂️", "💰", "🔫", "🃏", "👤", "🗣️", "🔍"]],
+    ["The Lord of the Rings: The Return of the King", ["🧝‍♂️", "💍", "👑", "👑", "🗡️", "🌋", "👹", "🤴"]],
+    ["Se7en", ["👨‍⚖️", "🔪", "🔢", "💀", "👮‍♂️", "🔍", "🔫", "📝"]], 
+    ["The Lord of the Rings: The Two Towers", ["🧝‍♂️", "💍", "👑", "👑", "🗡️", "🌋", "🧟‍♂️", "🐲"]],
+  ["Inglourious Basterds", ["👩‍🎨", "🔫", "🔪", "🧑‍💼", "🕵️‍♂️", "🎬", "🎉", "🔥"]],
+  ["The Prestige", ["🎩", "🎩", "🐰", "🃏", "🎭", "👥", "💔", "🔍"]],
+  ["Leon: The Professional", ["🔫", "👱‍♂️", "👧", "🍼", "🌱", "🕵️‍♂️", "🎨", "🚔"]],
+  ["The Shawshank Redemption", ["👨‍⚖️", "🔒", "🗝️", "👬", "🌅", "📖", "💼", "💰"]],
+  ["The Dark Knight", ["🦇", "🃏", "💣", "👨‍⚖️", "🦇", "💰", "👿", "🔥"]],
+  ["The Lord of the Rings: The Return of the King", ["🧝‍♂️", "💍", "👑", "👑", "🗡️", "🌋", "👹", "🤴"]],
+  ["Pulp Fiction", ["💉", "🍔", "🕶️", "💼", "🔫", "🚬", "🚗", "💊"]],
+  ["Fight Club", ["👨‍💼", "👊", "💥", "👥", "🤖", "🔥", "💊", "👬"]],
+  ["Inception", ["🤔", "💭", "🏃‍♂️", "💼", "🚀", "🕵️‍♂️", "💔", "🔑"]],
+  ["The Matrix", ["🕶️", "💻", "👽", "🔫", "💊", "🔵", "💥", "🚶‍♂️"]],
+  ["Gladiator", ["⚔️", "🛡️", "🏛️", "👑", "🤺", "👣", "🔥", "🩸"]],
+  ["The Lion King", ["🦁", "👑", "🐒", "🌅", "👑", "👑", "👑", "👑"]],
+  ["Titanic", ["🚢", "❤️", "🌊", "❄️", "👩‍❤️‍👨", "🎶", "🔱", "⚓"]],
+  ["Avatar", ["🪐", "🌱", "💎", "🏞️", "🤖", "🎋", "🌊", "💥"]],
+  ["The Silence of the Lambs", ["🔇", "🐑", "🧠", "🔪", "👩‍⚖️", "🕵️‍♂️", "🍷", "🐖"]],
+  ["The Sixth Sense", ["👻", "👦🏻", "🔍", "❌", "👻", "❤️", "🤫", "🧠"]],
+  ["The Green Mile", ["⚖️", "🔒", "👣", "👨‍⚖️", "🔪", "👨‍⚖️", "📖", "💊"]],
+  ["Interstellar", ["🌌", "🚀", "🌎", "👩‍👩‍👧‍👦", "💔", "⏳", "👨‍🚀", "🤖"]],
+  ["Terminator 2: Judgment Day", ["🤖", "🔫", "🔥", "⏰", "🏍️", "👦", "👧", "💣"]],
+  ["The Departed", ["👨‍✈️", "🔪", "💼", "👮‍♂️", "🤵", "💰", "🚔", "🕵️"]],
+  ["The Usual Suspects", ["👥", "🕵️‍♂️", "💰", "🔫", "🃏", "👤", "🗣️", "🔍"]]
+];
   const [message, setMessage] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const debouncedMessage = useDebounce(message, 500);
-  const correctAnswer = 'Inception';
+  const [correctAnswer, setCorrectAnswer] = useState('');
   const [wrongCount, setWrongCount] = useState(0);
   const [revealedEmojis, setRevealedEmojis] = useState(2);
   const [guessResult, setGuessResult] = useState('');
@@ -39,6 +84,20 @@ function App() {
   const [incorrectGuesses, setIncorrectGuesses] = useState([]); // State to store incorrect guesses
   const [attempts, setAttempts] = useState(0); // State to track attempts
   const [disableSend, setDisableSend] = useState(false); // State to disable Send button after correct answer
+  const [movieSummary, setMovieSummary] = useState([]);
+
+useEffect(() => {
+  async function fetchRandomMovie() {
+    const randomIndex = Math.floor(Math.random() * movies.length); // Use 'movies' array instead of 'movieData.movies'
+    const [randomMovieTitle, randomMovieSummary] = movies[randomIndex]; // Destructure the movie array
+    setCorrectAnswer(randomMovieTitle);
+    setMovieSummary(randomMovieSummary);
+  }
+
+  fetchRandomMovie(); // Call the function to fetch a random movie
+}, []); // Empty dependency array to run only once on component mount
+
+
 
   useEffect(() => {
     async function fetchMovies() {
@@ -117,13 +176,15 @@ function App() {
     let emojis = '';
     for (let i = 0; i < 8; i++) {
       if (i < revealedEmojis) {
-        emojis += ['🧠', '💭', '🕰️', '🎭', '🔑', '🚪', '🌌', '🔁'][i];
+        emojis += movieSummary[i]; // Use movieSummary instead of randomMovieSummary
       } else {
         emojis += '🔒';
       }
     }
     return emojis;
   };
+  
+    
 
   return (
     <Router>
@@ -139,7 +200,6 @@ function App() {
         <Routes>
           <Route path="/" element={
             <header className="App-header">
-<<<<<<< HEAD
               <h2>CineMoji 🎬 </h2>
               <h2>{renderEmojis()}</h2>
               <div className="descr">
@@ -147,13 +207,6 @@ function App() {
                   Try your hand at guessing the movie title based upon an emoji summary generated by ChatGPT.
                 </h4>
               </div>
-=======
-              <h1>CineMoji🎬</h1>
-              <h1>🧠💭🕰️🎭🔑🚪🌌🔁</h1>
-                <div className="descr">
-                    <h4>Try your hand at guessing the movie title based upon an emoji summary generated by ChatGPT.</h4>
-                </div>
->>>>>>> 582651e6060af2bf2b2ab7bfebe7b565ce3a2c4d
               <div className="autocomplete">
                 <input
                   type="text"
@@ -172,7 +225,7 @@ function App() {
                   </div>
                 )}
               </div>
-              <Button variant="contained" onClick={sendMessage} disabled={disableSend}>Send</Button>
+              <Button variant="contained" classname="test" onClick={sendMessage} disabled={disableSend}>Send</Button>
               <h4>{guessResult}</h4>
               {incorrectGuesses.length > 0 && (
                 <div style={{ textAlign: 'center' }}>
