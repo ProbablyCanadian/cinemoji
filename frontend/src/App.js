@@ -1,80 +1,83 @@
-import './App.css';
-import React, { useState, useEffect, useRef } from 'react';
+    import React, { useState } from 'react';
+    import './App.css';
 
-function App() {
-    const [message, setMessage] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const autocompleteRef = useRef(null);
+    function App() {
+        const [message, setMessage] = useState('');
+        const [suggestions, setSuggestions] = useState([]);
 
-    // Sample list of movies for autocomplete suggestions
-    const movies = ["The Shawshank Redemption", "The Godfather", "The Dark Knight", "The Godfather Part II", "12 Angry Men"];
+        const handleInputChange = async (event) => {
+            const userInput = event.target.value;
+            setMessage(userInput);
+        
+            // Check if the userInput is not just whitespace before fetching
+            if (userInput.trim()) {
+                // Replace 'YOUR_API_KEY_HERE' with your actual OMDb API key
+                const apiUrl = `http://www.omdbapi.com/?apikey=452caf0c&type=movie&s=${encodeURIComponent(userInput.trim())}`;
 
-    const handleInputChange = (event) => {
-        const userInput = event.target.value;
-        setMessage(userInput);
-        if (!userInput) {
-            setSuggestions([]);
-        } else {
-            const filteredSuggestions = movies.filter(movie =>
-                movie.toLowerCase().startsWith(userInput.toLowerCase())
-            );
-            setSuggestions(filteredSuggestions);
-        }
-    };
-
-    const handleSuggestionClick = (value) => {
-        setMessage(value);
-        setSuggestions([]);
-    };
-
-    const sendMessage = () => {
-        if (message.trim() !== '') {
-            //Add stuff when you click the button
-            //setMessage('');
-        } else {
-            alert('Please enter a message.');
-        }
-    };
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (autocompleteRef.current && !autocompleteRef.current.contains(event.target)) {
-                setSuggestions([]);
+        
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    if (data.Search) {
+                        setSuggestions(data.Search.map(movie => movie.Title));
+                    } else {
+                        setSuggestions([]);
+                    }
+                } catch (error) {
+                    console.error("Could not fetch movie data:", error);
+                    setSuggestions([]);
+                }
+            } else {
+                // Optionally, keep suggestions as is, instead of clearing them, when the user types only spaces
+                // setSuggestions([]);
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+        const handleSuggestionClick = (value) => {
+            setMessage(value);
+            setSuggestions([]);
         };
-    }, [autocompleteRef]);
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <h2>CineMoji 🎬</h2>
-                <h3>Movie Name</h3>
-                <div className="autocomplete" ref={autocompleteRef}>
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={handleInputChange}
-                        placeholder="Type your guess here..."
-                    />
-                    {suggestions.length > 0 && (
-                        <div className="autocomplete-items">
-                            {suggestions.map((suggestion, index) => (
-                                <div key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                                    {suggestion}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <button onClick={sendMessage}>Send</button>
-            </header>
-        </div>
-    );
-}
+        const sendMessage = () => {
+            if (message.trim() !== '') {
+                console.log('Sending message:', message);
+                // Implement your logic to "send" the message here
+                // This could be setting the message to some state, sending it to a backend, etc.
+                setMessage(''); // Clearing the input field after sending the message
+            } else {
+                alert('Please enter a message.');
+            }
+        };
 
-export default App;
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <h2>CineMoji 🎬</h2>
+                    <h3>Movie Name</h3>
+                    <div className="autocomplete">
+                        <input
+                            type="text"
+                            value={message}
+                            onChange={handleInputChange}
+                            placeholder="Type your guess here..."
+                        />
+                        {suggestions.length > 0 && (
+                            <div className="autocomplete-items">
+                                {suggestions.map((suggestion, index) => (
+                                    <div key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                                        {suggestion}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <button onClick={sendMessage}>Send</button>
+                </header>
+            </div>
+        );
+    }
+
+    export default App;
