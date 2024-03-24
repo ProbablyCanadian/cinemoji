@@ -1,6 +1,6 @@
   .App {
     display: flex;
-    text-align: left; /* Adjust the text alignment if needed */
+    text-align: center; /* Adjust the text alignment if needed */
     min-height: 100vh;
   }
 
@@ -54,7 +54,9 @@
   }
 
   .descr{
-    width:40%;
+    width:30%;
+    align-items: center;
+    justify-content: center;
   }
 
   .autocomplete {
