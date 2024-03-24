@@ -36,3 +36,55 @@
     transform: rotate(360deg);
   }
 }
+
+/* Adjusted CSS for narrower input and autocomplete dropdown */
+
+* {
+  box-sizing: border-box; /* Ensure padding and border are included in total width and height */
+}
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 30%; /* Set the width to be 80% of its parent */
+  margin: 0 auto; /* Center align the autocomplete block */
+}
+
+input[type="text"] {
+  width: 100%; /* Make input width fill the .autocomplete container */
+  padding: 10px;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px 4px 0 0; /* Rounded corners at the top */
+  font-size: 16px; /* Readable font size */
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-top: none; /* Remove top border for a continuous look */
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 4px 4px; /* Rounded corners at the bottom */
+  background-color: #fff;
+  max-height: 200px; /* Limit dropdown height */
+  overflow-y: auto; /* Scrollbar for overflow */
+  width: 100%; /* Dropdown matches input width */
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #d4d4d4; /* Separate items visually */
+  color: #333; /* Text color for visibility */
+  font-size: 16px; /* Consistent font size with input */
+}
+
+.autocomplete-items div:last-child {
+  border-bottom: none; /* No bottom border for the last item */
+}
+
+.autocomplete-items div:hover {
+  background-color: #f1f1f1; /* Hover state background color */
+}
