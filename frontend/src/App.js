@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { OpenAI } from 'openai';
 import './App.css';
-import movieData from './database.json';
 
 
 function useDebounce(value, delay) {
@@ -31,50 +30,6 @@ function TVShows() {
 }
 
 function App() {
-  const movies = [
-    ["The Shawshank Redemption", ["👨‍⚖️", "🔒", "🗝️", "👬", "🌅", "📖", "💼", "💰"]],
-    ["The Dark Knight", ["🦇", "🃏", "💣", "👨‍⚖️", "🦇", "💰", "👿", "🔥"]],
-    ["Pulp Fiction", ["💉", "🍔", "🕶️", "💼", "🔫", "🚬", "🚗", "💊"]],
-    ["Fight Club", ["👨‍💼", "👊", "💥", "👥", "🤖", "🔥", "💊", "👬"]],
-    ["Inception", ["🤔", "💭", "🏃‍♂️", "💼", "🚀", "🕵️‍♂️", "💔", "🔑"]],
-    ["The Matrix", ["🕶️", "💻", "👽", "🔫", "💊", "🔵", "💥", "🚶‍♂️"]],
-    ["The Lord of the Rings: The Fellowship of the Ring", ["🧝‍♂️", "💍", "🗡️", "🌋", "👹", "👣", "👨‍👨‍👦‍👦", "👑"]],
-    ["Gladiator", ["⚔️", "🛡️", "🏛️", "👑", "🤺", "👣", "🔥", "🩸"]],
-    ["The Lion King", ["🦁", "👑", "🐒", "🌅", "👑", "👑", "👑", "👑"]],
-    ["Titanic", ["🚢", "❤️", "🌊", "❄️", "👩‍❤️‍👨", "🎶", "🔱", "⚓"]],
-    ["Avatar", ["🪐", "🌱", "💎", "🏞️", "🤖", "🎋", "🌊", "💥"]],
-    ["The Silence of the Lambs", ["🔇", "🐑", "🧠", "🔪", "👩‍⚖️", "🕵️‍♂️", "🍷", "🐖"]],
-    ["The Sixth Sense", ["👻", "👦🏻", "🔍", "❌", "👻", "❤️", "🤫", "🧠"]],
-    ["The Green Mile", ["⚖️", "🔒", "👣", "👨‍⚖️", "🔪", "👨‍⚖️", "📖", "💊"]],
-    ["Interstellar", ["🌌", "🚀", "🌎", "👩‍👩‍👧‍👦", "💔", "⏳", "👨‍🚀", "🤖"]],
-    ["Terminator 2: Judgment Day", ["🤖", "🔫", "🔥", "⏰", "🏍️", "👦", "👧", "💣"]],
-    ["The Departed", ["👨‍✈️", "🔪", "💼", "👮‍♂️", "🤵", "💰", "🚔", "🕵️"]],
-    ["The Usual Suspects", ["👥", "🕵️‍♂️", "💰", "🔫", "🃏", "👤", "🗣️", "🔍"]],
-    ["The Lord of the Rings: The Return of the King", ["🧝‍♂️", "💍", "👑", "👑", "🗡️", "🌋", "👹", "🤴"]],
-    ["Se7en", ["👨‍⚖️", "🔪", "🔢", "💀", "👮‍♂️", "🔍", "🔫", "📝"]], 
-    ["The Lord of the Rings: The Two Towers", ["🧝‍♂️", "💍", "👑", "👑", "🗡️", "🌋", "🧟‍♂️", "🐲"]],
-  ["Inglourious Basterds", ["👩‍🎨", "🔫", "🔪", "🧑‍💼", "🕵️‍♂️", "🎬", "🎉", "🔥"]],
-  ["The Prestige", ["🎩", "🎩", "🐰", "🃏", "🎭", "👥", "💔", "🔍"]],
-  ["Leon: The Professional", ["🔫", "👱‍♂️", "👧", "🍼", "🌱", "🕵️‍♂️", "🎨", "🚔"]],
-  ["The Shawshank Redemption", ["👨‍⚖️", "🔒", "🗝️", "👬", "🌅", "📖", "💼", "💰"]],
-  ["The Dark Knight", ["🦇", "🃏", "💣", "👨‍⚖️", "🦇", "💰", "👿", "🔥"]],
-  ["The Lord of the Rings: The Return of the King", ["🧝‍♂️", "💍", "👑", "👑", "🗡️", "🌋", "👹", "🤴"]],
-  ["Pulp Fiction", ["💉", "🍔", "🕶️", "💼", "🔫", "🚬", "🚗", "💊"]],
-  ["Fight Club", ["👨‍💼", "👊", "💥", "👥", "🤖", "🔥", "💊", "👬"]],
-  ["Inception", ["🤔", "💭", "🏃‍♂️", "💼", "🚀", "🕵️‍♂️", "💔", "🔑"]],
-  ["The Matrix", ["🕶️", "💻", "👽", "🔫", "💊", "🔵", "💥", "🚶‍♂️"]],
-  ["Gladiator", ["⚔️", "🛡️", "🏛️", "👑", "🤺", "👣", "🔥", "🩸"]],
-  ["The Lion King", ["🦁", "👑", "🐒", "🌅", "👑", "👑", "👑", "👑"]],
-  ["Titanic", ["🚢", "❤️", "🌊", "❄️", "👩‍❤️‍👨", "🎶", "🔱", "⚓"]],
-  ["Avatar", ["🪐", "🌱", "💎", "🏞️", "🤖", "🎋", "🌊", "💥"]],
-  ["The Silence of the Lambs", ["🔇", "🐑", "🧠", "🔪", "👩‍⚖️", "🕵️‍♂️", "🍷", "🐖"]],
-  ["The Sixth Sense", ["👻", "👦🏻", "🔍", "❌", "👻", "❤️", "🤫", "🧠"]],
-  ["The Green Mile", ["⚖️", "🔒", "👣", "👨‍⚖️", "🔪", "👨‍⚖️", "📖", "💊"]],
-  ["Interstellar", ["🌌", "🚀", "🌎", "👩‍👩‍👧‍👦", "💔", "⏳", "👨‍🚀", "🤖"]],
-  ["Terminator 2: Judgment Day", ["🤖", "🔫", "🔥", "⏰", "🏍️", "👦", "👧", "💣"]],
-  ["The Departed", ["👨‍✈️", "🔪", "💼", "👮‍♂️", "🤵", "💰", "🚔", "🕵️"]],
-  ["The Usual Suspects", ["👥", "🕵️‍♂️", "💰", "🔫", "🃏", "👤", "🗣️", "🔍"]]
-];
   const [message, setMessage] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const debouncedMessage = useDebounce(message, 500);
@@ -87,13 +42,62 @@ function App() {
   const [attempts, setAttempts] = useState(0); // State to track attempts
   const [disableSend, setDisableSend] = useState(false); // State to disable Send button after correct answer
   const [movieSummary, setMovieSummary] = useState([]);
+  const [movieName, setMovieName] = useState('');
+  const [movieEmojis, setMovieEmojis] = useState('');
+
+  async function getMovie() {
+    const openai = new OpenAI({ apiKey: process.env.REACT_APP_GPT_KEY, dangerouslyAllowBrowser: true });
+    const year = Math.floor(Math.random() * (2023 - 1970 + 1)) + 1970;
+    console.log(year);
+    try {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: "Pick the name of a movie from " + year + ". Output the name only and nothing else" }],
+      });
+      // Log and return the assistant's response
+      const output = response.choices[0].message.content.trim();
+      console.log(output);
+      return output;
+    } catch (error) {
+      console.error("Error in sending message: ", error);
+      return null; // Return null or a suitable value in case of error
+    }
+  }
+
+  async function getEmojis(inputs) {
+    const openai = new OpenAI({ apiKey: process.env.REACT_APP_GPT_KEY, dangerouslyAllowBrowser: true });
+    const year = Math.floor(Math.random() * (2023 - 1970 + 1)) + 1970;
+    console.log(year);
+    try {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: `Represent the movie '${inputs}' using only 8 emojis. Do not repeat the same emoji twice, dont use commas or spaces, and don't use 🔒` }],
+      });
+      // Log and return the assistant's response
+      const output = response.choices[0].message.content.trim();
+      console.log(output);
+      return output;
+    } catch (error) {
+      console.error("Error in sending message: ", error);
+      return null; // Return null or a suitable value in case of error
+    }
+  }
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      const movie = await getMovie();
+      setMovieName(movie);
+      const emojis = await getEmojis(movie);
+      setMovieEmojis(emojis);
+    };
+
+    fetchMovie();
+  }, []);
 
 useEffect(() => {
   async function fetchRandomMovie() {
-    const randomIndex = Math.floor(Math.random() * movies.length); // Use 'movies' array instead of 'movieData.movies'
-    const [randomMovieTitle, randomMovieSummary] = movies[randomIndex]; // Destructure the movie array
-    setCorrectAnswer(randomMovieTitle);
-    setMovieSummary(randomMovieSummary);
+    setCorrectAnswer(movieName);
+    setMovieSummary(movieEmojis.split(''));
   }
 
   fetchRandomMovie(); // Call the function to fetch a random movie
@@ -196,66 +200,6 @@ useEffect(() => {
     return emojis;
   };
 
-  const [movieName, setMovieName] = useState('');
-  const [movieEmojis, setMovieEmojis] = useState('');
-
-  async function getMovie() {
-    const openai = new OpenAI({ apiKey: process.env.REACT_APP_GPT_KEY, dangerouslyAllowBrowser: true });
-    const year = Math.floor(Math.random() * (2023 - 1970 + 1)) + 1970;
-    console.log(year);
-    try {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: "Pick the name of a movie from " + year + ". Output the name only and nothing else" }],
-      });
-      // Log and return the assistant's response
-      const output = response.choices[0].message.content.trim();
-      console.log(output);
-      return output;
-    } catch (error) {
-      console.error("Error in sending message: ", error);
-      return null; // Return null or a suitable value in case of error
-    }
-  }
-
-  async function getEmojis() {
-    const openai = new OpenAI({ apiKey: process.env.REACT_APP_GPT_KEY, dangerouslyAllowBrowser: true });
-    const year = Math.floor(Math.random() * (2023 - 1970 + 1)) + 1970;
-    console.log(year);
-    try {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: `Represent the movie '${movies}' using only 8 emojis. Do not repeat the same emoji twice, dont use commas or spaces, and don't use 🔒` }],
-      });
-      // Log and return the assistant's response
-      const output = response.choices[0].message.content.trim();
-      console.log(output);
-      return output;
-    } catch (error) {
-      console.error("Error in sending message: ", error);
-      return null; // Return null or a suitable value in case of error
-    }
-  }
-
-  useEffect(() => {
-    const fetchMovie = async () => {
-      const movie = await getMovie();
-      setMovieName(movie);
-    };
-
-    fetchMovie();
-  }, []);
-
-  useEffect(() => {
-    const fetchEmojis = async () => {
-      const emojis = await getEmojis();
-      setMovieEmojis(emojis);
-    };
-
-    fetchEmojis();
-  }, []);
-
-
   return (
     <Router>
       <div className="App">
@@ -270,8 +214,8 @@ useEffect(() => {
         <Routes>
           <Route path="/" element={
             <header className="App-header">
-              <h2>CineMoji 🎬 </h2>
-              <h2>{movieEmojis}</h2>
+              <h2>{correctAnswer} </h2>
+              <h2>{movieSummary}</h2>
               <div className="descr">
                 <h4>
                   Try your hand at guessing the movie title based upon an emoji summary generated by ChatGPT.
